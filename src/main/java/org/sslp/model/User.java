@@ -13,4 +13,5 @@ public class User {
     private String token;
     private String email;
     private String bioid;
+    private String passwordHash;
 }

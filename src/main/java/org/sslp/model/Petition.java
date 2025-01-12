@@ -18,6 +18,6 @@ public class Petition {
     private String petitionerBioId;
     private Timestamp createTimestamp;
     private Integer signs;
-    private Integer saved;
+    private Boolean saved;
     private Boolean signed;
 }

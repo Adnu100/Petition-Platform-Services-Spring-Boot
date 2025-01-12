@@ -39,6 +39,7 @@ public class PetitionController {
         String userName = claims.get("username", String.class);
         return new FetchPetitionResponse(
             petitionService.getPetitions(new PetitionFetchParams(
+                userName,
                 page != null ? (page > 0 ? page - 1 : null) : null,
                 pageSize != null ? (pageSize > 0 ? pageSize : null) : null,
                 petitioner,
