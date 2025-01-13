@@ -26,18 +26,18 @@ public class Mappers {
 
     public RowMapper<Petition> petitionMapper() {
         return (rs, rowNum) -> Petition.builder()
-            .id(rs.getString(0))
-            .title(rs.getString(1))
-            .content(rs.getString(2))
-            .status(rs.getString(3))
-            .response(rs.getString(4))
-            .petitionerEmail(rs.getString(5))
-            .petitionerName(rs.getString(6))
-            .petitionerBioId(rs.getString(7))
-            .createTimestamp(rs.getTimestamp(8))
-            .signs(rs.getInt(9))
-            .saved(rs.getBoolean(10))
-            .signed(rs.getBoolean(11))
+            .id(rs.getString(1))
+            .title(rs.getString(2))
+            .content(rs.getString(3))
+            .status(rs.getString(4))
+            .response(rs.getString(5))
+            .petitionerEmail(rs.getString(6))
+            .petitionerName(rs.getString(7))
+            .petitionerBioId(rs.getString(8))
+            .createTimestamp(rs.getTimestamp(9))
+            .signs(rs.getInt(10))
+            .saved(rs.getBoolean(11))
+            .signed(rs.getBoolean(12))
             .build();
     }
 

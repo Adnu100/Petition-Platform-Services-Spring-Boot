@@ -24,12 +24,12 @@ public class PetitionController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", ""})
     public ResponseEntity<? extends ApiResponse> getPetitions(
         @RequestParam(value = "page", required = false) Integer page,
         @RequestParam(value = "page-size", required = false) Integer pageSize,
-        @RequestParam(value = "saved", required = false) Boolean saved,
-        @RequestParam(value = "signed", required = false) Boolean signed,
+        @RequestParam(value = "saved", required = false) String saved,
+        @RequestParam(value = "signed", required = false) String signed,
         @RequestParam(value = "petitioner", required = false) String petitioner,
         @RequestHeader("access-token") String token
     ) {
@@ -40,8 +40,8 @@ public class PetitionController {
         return new FetchPetitionResponse(
             petitionService.getPetitions(new PetitionFetchParams(
                 userName,
-                page != null ? (page > 0 ? page - 1 : null) : null,
-                pageSize != null ? (pageSize > 0 ? pageSize : null) : null,
+                page != null && pageSize != null ? (pageSize > 0 ? pageSize : null) : null,
+                page != null && pageSize != null ? (page > 0 && pageSize > 0 ? (page - 1) * pageSize : null) : null,
                 petitioner,
                 saved != null ? userName : null,
                 signed != null ? userName : null
@@ -62,7 +62,7 @@ public class PetitionController {
         ).toResponseEntity();
     }
 
-    @PostMapping("/")
+    @PostMapping(value = {"/", ""})
     public ResponseEntity<? extends ApiResponse> createPetition(
         @RequestHeader("access-token") String token,
         @RequestBody PetitionRequest petitionRequest

@@ -26,7 +26,7 @@ public class ApiResponse {
 
     public ResponseEntity<? extends ApiResponse> toResponseEntity() {
         if(status.equals(SUCCESS))
-            return ResponseEntity.ok(new ApiResponse(status, message));
+            return ResponseEntity.ok(this);
         return ResponseEntity.internalServerError().body(new ApiResponse(status, message));
     }
 

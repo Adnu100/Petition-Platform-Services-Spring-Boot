@@ -1,6 +1,6 @@
 package org.sslp.dao;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.sslp.constants.Queries;
@@ -11,6 +11,7 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 @Repository
+@Slf4j
 public class UserDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -26,7 +27,8 @@ public class UserDao {
             return jdbcTemplate.queryForObject(
                 Queries.CHECK_LOGIN, new Object[] {email}, mappers.loginDetailsMapper("user")
             );
-        } catch(EmptyResultDataAccessException e) {
+        } catch(Exception e) {
+            log.info("admin logging attempt for email: {}", email);
             return jdbcTemplate.queryForObject(
                 Queries.CHECK_ADMIN_LOGIN, new Object[] {email}, mappers.loginDetailsMapper("admin")
             );
@@ -36,7 +38,7 @@ public class UserDao {
     public User fetchUserByBioId(String bioId) {
         try {
             return jdbcTemplate.queryForObject(Queries.FETCH_PERSON_DATA, new Object[] {bioId}, mappers.userMapper());
-        } catch(EmptyResultDataAccessException e) {
+        } catch(Exception e) {
             return null;
         }
     }

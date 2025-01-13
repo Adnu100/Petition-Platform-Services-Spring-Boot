@@ -8,7 +8,6 @@ import org.sslp.model.response.ApiResponse;
 import org.sslp.model.response.FetchUserResponse;
 import org.sslp.model.response.LoginResponse;
 import org.sslp.service.UserService;
-import org.sslp.utils.JWTUtils;
 
 import java.util.Map;
 

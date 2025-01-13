@@ -1,5 +1,6 @@
 package org.sslp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.sslp.dao.PetitionDao;
 import org.sslp.model.Petition;
@@ -8,6 +9,7 @@ import org.sslp.model.PetitionFetchParams;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PetitionService {
 
     private final PetitionDao petitionDao;
@@ -18,6 +20,7 @@ public class PetitionService {
 
     public List<Petition> getPetitions(PetitionFetchParams params) {
         boolean pagination = params.getPageNumber() != null && params.getPageSize() != null;
+        log.info("fetching petitions for params {}", params);
         if(params.getSavedBy() != null)
             return pagination ?
                 petitionDao.findSaved(params.getSavedBy(), params.getPageNumber(), params.getPageSize()) :

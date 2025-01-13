@@ -2,6 +2,7 @@ package org.sslp.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JWTUtils {
 
     private final Key secretKey;
@@ -31,6 +33,7 @@ public class JWTUtils {
         return Jwts.builder()
             .subject(userName)
             .issuedAt(new Date(nowMillis))
+            .expiration(new Date(nowMillis + 3600000))
             .claims(Map.of(
                 "username", userName,
                 "type", userType,
@@ -47,13 +50,14 @@ public class JWTUtils {
     public Claims isTokenValid(String token, boolean onlyAdminAllowed) {
         try {
             Claims claims = Jwts.parser()
-                .decryptWith((SecretKey) secretKey)
+                .setSigningKey((SecretKey) secretKey)
                 .build()
-                .parseEncryptedClaims(token)
+                .parseClaimsJws(token)
                 .getPayload();
-            return (onlyAdminAllowed && !claims.get("userType").equals("admin")) ?
+            return (onlyAdminAllowed && !claims.get("type").equals("admin")) ?
                 null : (!claims.getExpiration().before(new Date()) ? claims : null);
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return null;
         }
     }

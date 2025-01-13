@@ -1,6 +1,6 @@
 package org.sslp.service;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.sslp.dao.UserDao;
 import org.sslp.model.request.LoginCredentials;
@@ -10,6 +10,7 @@ import org.sslp.utils.JWTUtils;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class UserService {
 
     private final JWTUtils jwtUtils;
@@ -28,12 +29,13 @@ public class UserService {
                 return User.builder()
                     .email(credentials.email())
                     .name(map.get("fullName"))
-                    .token(jwtUtils.createJWT(credentials.email(), passwordHash))
+                    .token(jwtUtils.createJWT(credentials.email(), map.get("type")))
                     .build();
             }
             else
                 return null;
-        } catch(EmptyResultDataAccessException e) {
+        } catch(Exception e) {
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -43,7 +45,7 @@ public class UserService {
     }
 
     public boolean registerUser(User user) {
-        return userDao.addUser(user.getBioid(), user.getEmail(), user.getPasswordHash());
+        return userDao.addUser(user.getBioid(), user.getEmail(), user.getPassword());
     }
 
 }
