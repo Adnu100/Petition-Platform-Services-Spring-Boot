@@ -17,8 +17,8 @@ public class PetitionServicesConfiguration implements WebMvcConfigurer {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/petitions");
-        dataSource.setUsername("root");
-        dataSource.setPassword("Adnu1000%");
+        dataSource.setUsername("");
+        dataSource.setPassword("");
         return dataSource;
     }
 
